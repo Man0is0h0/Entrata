@@ -1,0 +1,376 @@
+/* Reset and base styles */
+:root {
+  --background: #F8FAFC;
+  --surface: #FFFFFF;
+  --primary: #4F46E5;
+  --primary-hover: #4338CA;
+  --text-primary: #0F172A;
+  --text-secondary: #64748B;
+  --border: #E2E8F0;
+  --success: #22C55E;
+  --danger: #EF4444;
+  --warning: #F59E0B;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--background);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+  font-size: 14px; /* Reduce UI size slightly */
+  cursor: none; /* Hide default cursor */
+}
+
+/* Custom Cursor */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: rgba(79, 70, 229, 0.3); /* Mild indigo */
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  transition: transform 0.1s ease-out, background-color 0.2s;
+  mix-blend-mode: multiply;
+}
+
+/* Layout */
+.app-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+.left-panel {
+  width: 340px;
+  background-color: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.01);
+  z-index: 10;
+}
+
+.right-panel {
+  flex: 1;
+  padding: 2rem 3.5rem;
+  background-color: var(--background);
+  overflow-y: auto;
+}
+
+/* Header */
+.header {
+  margin-bottom: 2.5rem;
+}
+
+.header-top {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: -0.025em;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.task-summary {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: var(--background);
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  border: 1px solid var(--border);
+  display: inline-block;
+  align-self: flex-start;
+}
+
+.card {
+  margin-bottom: 2.5rem;
+}
+
+.card h2 {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+}
+
+/* Task Form */
+.task-form .input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.task-form input {
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  color: var(--text-primary);
+  background: var(--background);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.task-form input::placeholder {
+  color: #94A3B8;
+}
+
+.task-form input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+  background: var(--surface);
+}
+
+.task-form button {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.task-form button:hover:not(:disabled) {
+  background-color: var(--primary-hover);
+}
+
+.task-form button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.task-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: var(--danger);
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+/* Filter Bar (Pill style) */
+.filter-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filter-bar button {
+  text-align: left;
+  padding: 0.875rem 1.25rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-weight: 500;
+}
+
+.filter-bar button:hover {
+  background: var(--background);
+  color: var(--text-primary);
+}
+
+.filter-bar button.active {
+  background: var(--primary);
+  color: var(--surface);
+}
+
+.filter-bar button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Task List */
+.task-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  gap: 1.25rem;
+}
+
+/* Task Item */
+.task-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--border);
+  border-left: 6px solid var(--warning); /* Orange for active tasks */
+  border-radius: 1rem;
+  background: var(--surface);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.task-card:hover {
+  border-color: #CBD5E1;
+  border-left-color: var(--warning);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+.task-card.completed {
+  border-left-color: var(--success); /* Green for completed tasks */
+  background: #F8FAFC;
+  opacity: 0.8;
+}
+
+.task-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.task-checkbox {
+  width: 1.25rem;
+  height: 1.25rem;
+  cursor: pointer;
+  accent-color: var(--primary);
+  margin: 0;
+}
+
+.task-checkbox:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.task-text {
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  user-select: none;
+}
+
+.task-card.completed .task-text {
+  text-decoration: line-through;
+  color: var(--text-secondary);
+}
+
+.edit-input {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  font-size: 1.1rem;
+  border: 1px solid var(--primary);
+  border-radius: 0.5rem;
+  outline: none;
+  background: var(--surface);
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+}
+
+.task-actions {
+  display: flex;
+  gap: 0.25rem;
+  opacity: 0.4;
+  transition: opacity 0.15s;
+}
+
+.task-card:hover .task-actions,
+.task-actions:focus-within {
+  opacity: 1;
+}
+
+.action-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: var(--text-secondary);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.action-btn:hover {
+  background: var(--background);
+  color: var(--text-primary);
+}
+
+.action-btn.delete:hover {
+  color: var(--danger);
+  background: #FEE2E2;
+}
+
+.action-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  opacity: 1;
+}
+
+/* States */
+.loading-state, .error-state, .empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 5rem 2rem;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  background: var(--surface);
+  border-radius: 1rem;
+  border: 1px dashed var(--border);
+}
+
+.error-state {
+  color: var(--danger);
+  border-color: #FCA5A5;
+  background: #FEF2F2;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .task-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  
+  .left-panel {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem;
+    overflow-y: visible;
+  }
+  
+  .right-panel {
+    padding: 1.5rem;
+    overflow-y: visible;
+  }
+}
